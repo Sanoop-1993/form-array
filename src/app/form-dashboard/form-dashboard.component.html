@@ -1,0 +1,79 @@
+<nav class="navbar navbar-light bg-primary">
+    <div class="container">
+
+        <h1 class="text-white">Angular</h1>
+
+
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <form [formGroup] ="formValue">
+        <div class="form-group mt-2">
+          <label for="exampleFormControlInput1">Firstname</label>
+          <input type="text" class="form-control" formControlName="firstname" placeholder="Enter Firstname">
+        </div>
+        <div class="form-group mt-2">
+            <label for="exampleFormControlInput1">Lastname</label>
+            <input type="text" class="form-control" formControlName="lastname" placeholder="Enter Lastname">
+        </div>
+          <div class="form-group mt-2">
+            <label for="exampleFormControlInput1">Email address</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" formControlName="email" placeholder="name@example.com">
+          </div>
+        
+        <div class="form-group mt-2" formArrayName="detailsArr">
+            <div>
+
+                Details
+                <div class="pull-right">
+                    <button class="btn btn-success" (click)="addDetails()">+</button>
+
+                </div>
+        
+            </div>
+          <hr>
+
+            <div class="row col-md-12" *ngFor="let quantity of detailsArr().controls; let i=index" [formGroupName]="i">
+                <div class="col-md-4">
+                    <label for="exampleFormControlSelect2">Type</label>
+                    <select class="form-control" id="exampleFormControlSelect1" formControlName="type">
+                        <option>Type</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
+        
+                  </div>
+        
+                  <div class="col-md-5">
+                    <label for="exampleFormControlSelect2">Value</label>
+                    <input type="text" class="form-control" placeholder="Enter Value" formControlName="value">
+        
+                  </div>
+
+                  
+                  <div class="col-md-3">
+                    <button class="btn btn-success m-4" (click)="addDetails()">+</button>
+                    <button class="btn btn-danger m-4" (click)="removeDetails(i)">X</button>
+
+                  </div>                
+            </div>
+        
+           
+          
+            
+        </div>
+
+
+        
+         
+
+        <button class="btn btn-primary" (click)="addEmployeeDetails()">Insert</button>
+    
+       
+    </form>
+
+</div>
