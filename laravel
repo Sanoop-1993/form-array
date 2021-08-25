@@ -1,0 +1,36 @@
+
+class FormController extends Controller
+{
+    public function addForm(Request $request){
+
+      return  response()->json(['name' => 'Abigail', 'state' => 'CA'],401);
+        return response()->json(['message'=>'Data Added'],500);
+        $form = Form::create([
+            'firstname'=>$request->firstname,
+            'lastname'=>$request->lastname,
+            'email'=>$request->email,
+
+        ]);
+        
+        if($form){
+
+            $id=$form->id;
+
+          foreach($request->detailsArr as $key=> $var){
+            $details =Details::create([
+                'type'=>$var['type'],
+                'value'=>$var['value'],
+                'form_id'=>$id
+            ]);
+          }
+            
+        }
+
+        return response()->json(['message'=>'Data Added'],201);
+
+        
+
+    }
+    
+     $table->bigInteger('form_id')->unsigned()->index()->nullable();
+            $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
