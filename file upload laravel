@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Installer;
+use Illuminate\Support\Facades\File;
+
+class InstallerController extends Controller
+{
+    public function storeInstaller(Request $request)
+    {
+       $jsonData = $request->input('formdata');
+       $deocodeData = json_decode($jsonData);
+        $files = $request->file('logofile');
+        if ($request->hasFile('logofile')) {
+
+            $file = $request->file('logofile');         
+   
+            // File upload location
+            $location = 'public/logo';
+   
+
+           
+            $FILE_UPLOAD ='/uploads'.'/';
+            $Fileupload =$_SERVER['DOCUMENT_ROOT'].$FILE_UPLOAD;
+            if (!is_dir($Fileupload)){
+              File::makeDirectory($Fileupload, $mode = 0777, true);
+            }
+            $orgFileName= $file->getClientOriginalName();
+            $filename='productfile_'.rand().'_'.date('Ymdhis').'.'.$file->extension();      
+
+            // Upload file
+            $file->move($Fileupload,$filename);
+
+            Installer::create([
+                        'fullName'=>$deocodeData->fullName,
+                        'contactPerson'=>$deocodeData->contactPerson,
+                        'phone'=>$deocodeData->phone,
+                        'emailId'=>$deocodeData->emailId,
+                        'location'=>$deocodeData->location,
+                        'website'=>$deocodeData->website,
+                        'logo' => $filename
+                    ]);
+        
+        
+        
+        }
+          return response()->json(['message'=>'Data Added'],201);
+
+        // return $request->hasFile('logofile');
+        // $firstImage="";
+        
+
+
+// $fileName="";
+        //if file exist 
+
+        // if ($request->hasFile('logofile')) {
+        //     $firstImage = $request->file('logofile')->store('logo');
+        //     Installer::create([
+        //         'fullName'=>$deocodeData->fullName,
+        //         'contactPerson'=>$deocodeData->contactPerson,
+        //         'phone'=>$deocodeData->phone,
+        //         'emailId'=>$deocodeData->emailId,
+        //         'location'=>$deocodeData->location,
+        //         'website'=>$deocodeData->website,
+        //         'logo' => $firstImage
+        //     ]);
+        // }
+        // return response()->json(['message'=>'Data Added'],201);
+
+        
+
+
+            
+
+    
+    }
+}
