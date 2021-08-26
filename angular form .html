@@ -1,0 +1,195 @@
+<app-breadcrumb [title]="'Installers'" [items]="['Installers']" [active_item]="'Installers-list'"></app-breadcrumb>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body custom-datatable">
+
+
+
+          <div class="row">
+            <div class="col-sm-9"> <input type="text" class="filter-ngx form-control" placeholder='Search...'
+                (keyup)="updateFilter($event)" /></div>
+            <div class="col-sm-3">
+              <button class="btn  btncolor float-right "  (click)="opencustomeradd(addinstaller)" > <i
+                class="fa fa-plus-circle mr-2"></i> <span>Add installer</span>
+                  </button>
+              
+            </div>
+          </div>
+          <ng-template #addinstaller let-modal>
+            <div class="modal-header " style="background-color: #f9fbfd !important;">
+              <h3 class="modal-title" id="modal-basic-title" style="color: #3f87f5;">Add installer</h3>
+              
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            
+              
+            </div>
+            <div style="background-color: #f9fbfd !important;">
+              <h6 style="font-size: 15px; margin-left: 15px;">New installer details</h6>
+            </div>
+            <div class="modal-body addinstaller">
+              <form [formGroup]="formValue" >
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Full name</label>
+                    <input   type="text" formControlName="fullName"   (change)="log(fullName)" class="form-control" placeholder="Full name">
+                    <div class="text text-danger mt-1" *ngIf="(formValue.controls.fullName.touched || isFormSubmit) && !formValue.controls.fullName.valid">
+                      <div *ngIf="formValue.controls.fullName?.errors.required">Full name is required</div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="control-label">Contact person</label>
+                    <input type="text"  type="text"  name="contactPerson"
+                      (change)="log(contactPerson)" class="form-control"
+                      placeholder="Contact person" formControlName="contactPerson">
+                      <div class="text text-danger mt-1" *ngIf="(formValue.controls.contactPerson.touched || isFormSubmit) && !formValue.controls.contactPerson.valid">
+                        <div *ngIf="formValue.controls.contactPerson?.errors.required">Contact Person is required</div>
+  
+                      </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Contact number</label>
+                    <input type="number" class="form-control" placeholder="Contact number" formControlName="phone">
+                    <div class="text text-danger mt-1" *ngIf="(formValue.controls.phone.touched || isFormSubmit) && !formValue.controls.phone.valid">
+                      <div *ngIf="formValue.controls.phone?.errors.required">Contact Person is required</div>
+
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="control-label">Email id</label>
+                    <input type="email" name="emailId"  class="form-control"
+                      placeholder="Email id" formControlName="emailId">
+
+                      <div class="text text-danger mt-1" *ngIf="(formValue.controls.emailId.touched || isFormSubmit) && !formValue.controls.emailId.valid">
+                        <div *ngIf="formValue.controls.emailId?.errors.required">Email Id is required</div>
+                        <div *ngIf="formValue.controls.emailId.errors.email">Please enter a valid email id</div>
+
+                      </div>
+                 
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <label class="control-label">Location</label>
+                   <input type="text" placeholder="Location" class="form-control" formControlName="location">
+                   <div class="text text-danger mt-1" *ngIf="(formValue.controls.location.touched || isFormSubmit) && !formValue.controls.location.valid">
+                    <div *ngIf="formValue.controls.location?.errors.required">Location is required</div>
+
+                  </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <label class="control-label">Website</label>
+                    <input type="text" class="form-control" placeholder="Website" formControlName="website">
+                    <div class="text text-danger mt-1" *ngIf="(formValue.controls.website.touched || isFormSubmit)  && !formValue.controls.website.valid">
+                      <div *ngIf="formValue.controls.website?.errors.required">Website is required</div>
+  
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row"  style="margin-bottom: 0px !important;">
+                  <div class="col-sm-6">
+                    <label class="control-label">Upload logo</label>
+                    <input 
+                      formControlName="logo"
+                      id="file" 
+                      type="file" 
+                      class="form-control"
+                      (change)="onFileChange($event)">
+                       <div class="text text-danger mt-1" *ngIf="formValue.controls.website.touched && !formValue.controls.website.valid">
+                        <div *ngIf="formValue.controls.website?.errors.required">Website is required</div>
+    
+                      </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer  " style="background-color: #f9fbfd !important;">
+              <div class="row">
+                <div class="col-sm-9 d-flex">
+                  <p class="cancel" (click)="modal.dismiss('Cross click')">Cancel</p>
+                  <!-- <button type="button" class="btn cancel  " (click)="modal.dismiss('Cross click')">Cancel</button> -->
+                </div>
+                <div class="col-sm-3">
+                 <div class="pull-right mr-1">
+                  <button type="button" class="btn  btncolor btn-sm " (click)="addNewInstaller()">Save</button>
+                 </div>
+                </div>
+              </div>
+              </div>
+
+          </ng-template>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <ngx-datatable #table class='bootstrap' [columns]="columns" [columnMode]="ColumnMode.force"
+                  [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10" [rows]="rows"
+                  *ngIf="dataService.isAnimationDone">
+                  <ngx-datatable-column name="Sl no" prop="Sl no" [width]="70" ></ngx-datatable-column>
+                  <ngx-datatable-column name="Name" prop="Name" [width]="200"  ></ngx-datatable-column>
+                  <ngx-datatable-column name="Contact person" prop="Contact person" [width]="200"  ></ngx-datatable-column>
+                  <ngx-datatable-column name="Email id" prop="Email id" [width]="250"  ></ngx-datatable-column>
+                  <ngx-datatable-column name="Phone number" prop="Phone number" ></ngx-datatable-column>
+
+                  <ngx-datatable-column name="Status" prop="Status"  [width]="110" >
+                    <ng-template ngx-datatable-cell-template let-value="value">
+                     
+                      <div *ngIf="value==1" >
+                        <div  class="d-flex align-items-center ">
+                          <div class="badge badge-success badge-dot m-r-10" ></div>
+                        <div style="cursor: pointer;">Active</div>
+                        </div>
+                      </div>
+                        
+                      <div *ngIf="value==2" >
+                        <div class="d-flex align-items-center " (click)="statuschange()">
+                          <div class="badge badge-danger badge-dot m-r-10"  ></div>
+                        <div style="cursor: pointer;">Inactive</div>
+                        </div>
+                      </div>
+                     
+
+                    </ng-template>
+                   
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Actions" prop="Action" [width]="120">
+                    <ng-template ngx-datatable-cell-template let-value="value" >
+
+                      <div style="margin-bottom: -6px;">
+                        <ul class="social d-flex "> 
+                          <li class="edit text-center align-items-center justify-content-center" >
+                            <a  ngbTooltip="Edit"><i class="fa fa-edit "></i></a>
+                          </li>
+                          <li class="edit mr-1 ">
+                            <a ngbTooltip="Delete"><i class="fa fa-trash "></i></a>
+                          </li>
+  
+                        </ul>
+                      </div>
+
+                      
+                        
+                     
+                    </ng-template>
+                    
+                    
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
